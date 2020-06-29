@@ -53,8 +53,8 @@ void loop()
  int val = sensors.requestTemperatures();
  if (val > 0 && val < 80) {
      OCR2B = val;
- }}
-
+ }
+}
 char getRPMS() {
  time = pulseIn(2, HIGH);
  rpm = (1000000 * 60) / (time * 4);
@@ -62,5 +62,5 @@ char getRPMS() {
  if (stringRPM.length() < 5) {
    Serial.println(rpm, DEC);
  }
- delay (60000
+ delay (60000)
 }
