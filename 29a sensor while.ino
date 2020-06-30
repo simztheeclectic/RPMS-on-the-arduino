@@ -2,12 +2,14 @@
 #include <OneWire.h>
 
 #define ONE_WIRE_BUS 9
+#define TEMPERATURE_PRECISION 9
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
-DeviceAddress CPU, GPU, MEMORY; 
-//DeviceAddress CPU = {}
-//DeviceAddress GPU = {}
-//DeviceAddress MEMORY {} 
+DeviceAddress CPU, GPU; 
+// sensors.getAddress(deviceAddress, index)
+//DeviceAddress CPU = {0x28, 0xAA, 0x10, 0xA4, 0x55, 0x14, 0x01, 0x91}
+//DeviceAddress GPU = {0x28, 0xAA, 0x32, 0x7A, 0x55, 0x14, 0x01, 0xFE}
+ 
 //--------------------------------------------------------------------------------------------------------------//
 
 int pwmPin     = 3; // digital PWM pin 3
@@ -35,37 +37,28 @@ void setup()
   delay (20);
   sensors.begin();  // Start up the library
   delay (20);
-
+  Serial.print("Wha Gwan my G, Booting up just now King");
+  delay(5000);
+  Serial.println();
    // locate devices on the bus
-  Serial.print("Locating devices...");
+  Serial.print("Checking thermals...");
+  delay(500);
   Serial.print("Found ");
+  delay(100);
   Serial.print(sensors.getDeviceCount(), DEC);
   Serial.println(" devices.");
     
    if (!sensors.getAddress(CPU, 0)) Serial.println("Unable to find address for Device 0");
   if (!sensors.getAddress(GPU, 1)) Serial.println("Unable to find address for Device 1");
-if (!sensors.getAddress(MEMORY, 2)) Serial.println("Unable to find address for Device 2");
 // Must be called before search()
   //oneWire.reset_search();
   // assigns the first address found to CPU
   //if (!oneWire.search(CPU)) Serial.println("Unable to find address for CPU");
-  // assigns the seconds address found to GPU
+  // assigns the second address found to GPU
   //if (!oneWire.search(GPU)) Serial.println("Unable to find address for GPU");
-  // assigns the third address found to GPU
-  //if (!oneWire.search(MEMORY)) Serial.println("Unable to find address for MEMORY");
-  
-    Serial.print("Device 0 Address: ");
-  
-  Serial.println();
-  Serial.print("Device 1 Address: ");
  
-  Serial.println();
-    Serial.print("Device 2 Address: ");
-
-  Serial.println();
 }
 
-//----------------------------------------------------------------------------------------------------//
 
 void loop()
 {
@@ -93,5 +86,4 @@ char getRPMS() {
  if (stringRPM.length() < 5) {
    Serial.println(rpm, DEC);
  }
- delay (60000);
 }
