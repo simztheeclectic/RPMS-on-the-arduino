@@ -4,7 +4,10 @@
 #define ONE_WIRE_BUS 9
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
-DeviceAddress insideThermometer;
+DeviceAddress CPU, GPU, MEMORY; 
+//DeviceAddress CPU = {}
+//DeviceAddress GPU = {}
+//DeviceAddress MEMORY {} 
 //--------------------------------------------------------------------------------------------------------------//
 
 int pwmPin     = 3; // digital PWM pin 3
@@ -26,15 +29,41 @@ void setup()
    OCR2B = 0;    // duty cycle for Pin 3 (0-79) generates 1 500nS pulse even when 0 :
    digitalWrite(2, HIGH);   // Starts reading
    Serial.begin(9600);
+   //-------------------------------------------------------------------------------------------------------------//
+ 
 
-delay (20)
-sensors.begin();  // Start up the library
+  delay (20);
+  sensors.begin();  // Start up the library
+  delay (20);
 
    // locate devices on the bus
   Serial.print("Locating devices...");
   Serial.print("Found ");
   Serial.print(sensors.getDeviceCount(), DEC);
-  Serial.println(" devices.");}
+  Serial.println(" devices.");
+    
+   if (!sensors.getAddress(CPU, 0)) Serial.println("Unable to find address for Device 0");
+  if (!sensors.getAddress(GPU, 1)) Serial.println("Unable to find address for Device 1");
+if (!sensors.getAddress(MEMORY, 2)) Serial.println("Unable to find address for Device 2");
+// Must be called before search()
+  //oneWire.reset_search();
+  // assigns the first address found to CPU
+  //if (!oneWire.search(CPU)) Serial.println("Unable to find address for CPU");
+  // assigns the seconds address found to GPU
+  //if (!oneWire.search(GPU)) Serial.println("Unable to find address for GPU");
+  // assigns the third address found to GPU
+  //if (!oneWire.search(MEMORY)) Serial.println("Unable to find address for MEMORY");
+  
+    Serial.print("Device 0 Address: ");
+  
+  Serial.println();
+  Serial.print("Device 1 Address: ");
+ 
+  Serial.println();
+    Serial.print("Device 2 Address: ");
+
+  Serial.println();
+}
 
 //----------------------------------------------------------------------------------------------------//
 
@@ -48,13 +77,15 @@ void loop()
  //  Serial.println(x);
  //  delay(200);
  //}
+
+ 
  
  while (Serial.available() == 0);
- int val = sensors.requestTemperatures();
+ int val = Serial.parseInt();
  if (val > 0 && val < 80) {
      OCR2B = val;
- }
-}
+ }}
+
 char getRPMS() {
  time = pulseIn(2, HIGH);
  rpm = (1000000 * 60) / (time * 4);
@@ -62,5 +93,5 @@ char getRPMS() {
  if (stringRPM.length() < 5) {
    Serial.println(rpm, DEC);
  }
- delay (60000)
+ delay (60000);
 }
