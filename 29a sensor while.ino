@@ -35,7 +35,7 @@ void setup()
  
 
   delay (20);
-  sensors.begin();  // Start up the library
+  sensors.begin();  // Start up the Dallas library
   delay (20);
   Serial.print("Wha Gwan my G, Booting up just now King");
   delay(5000);
@@ -56,9 +56,28 @@ void setup()
   //if (!oneWire.search(CPU)) Serial.println("Unable to find address for CPU");
   // assigns the second address found to GPU
   //if (!oneWire.search(GPU)) Serial.println("Unable to find address for GPU");
- 
-}
 
+  
+  // set the resolution to 9 bit per device
+  sensors.setResolution(CPU, TEMPERATURE_PRECISION);
+  sensors.setResolution(GPU, TEMPERATURE_PRECISION);
+
+    Serial.print("Device 0 Resolution: ");
+  Serial.print(sensors.getResolution(CPU), DEC);
+  Serial.println();
+
+  Serial.print("Device 1 Resolution: ");
+  Serial.print(sensors.getResolution(GPU), DEC);
+  Serial.println();
+  }
+
+// function to print a device's resolution
+void printResolution(DeviceAddress deviceAddress)
+{
+  Serial.print("Resolution: ");
+  Serial.print(sensors.getResolution(deviceAddress));
+  Serial.println();
+}
 
 void loop()
 {
@@ -86,4 +105,5 @@ char getRPMS() {
  if (stringRPM.length() < 5) {
    Serial.println(rpm, DEC);
  }
+ delay (6000);
 }
