@@ -1,1 +1,1 @@
-# RPMS-on-the-arduino is a simple starter project on the Arduino using the Dallas / Maxim tempreture probe. There are a total of 2 probes and they should send their data to the arduino which would then translate that into a RPM for the Fans on the PWM pins. See, simple right?
+# RPMS-on-the-arduino is a simple starter project on the Arduino using the Dallas / Maxim tempreture probe. The temp probes should send their data to the arduino which would then translate that into a RPM for the Fans on the PWM pins. See, simples. ?
